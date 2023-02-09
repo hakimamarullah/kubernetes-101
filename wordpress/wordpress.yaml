@@ -23,7 +23,7 @@ spec:
               mountPath: /var/www
           env:
             - name: WORDPRESS_DB_HOST
-              value: mysql-service.default.svc.cluster.local
+              value: 10.101.68.149
             - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
