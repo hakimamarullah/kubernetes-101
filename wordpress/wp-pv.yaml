@@ -12,11 +12,3 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: "/opt/volume/wordpress"
-  nodeAffinity:
-    required:
-      nodeSelectorTerms:
-        - matchExpressions:
-            - key: kubernetes.io/hostname
-              operator: In
-              values:
-                - worker1
