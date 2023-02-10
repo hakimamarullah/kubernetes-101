@@ -12,3 +12,11 @@ spec:
   selector:
     matchLabels:
       app: wordpress
+#  nodeAffinity:
+#    required:
+#      nodeSelectorTerms:
+#        - matchExpressions:
+#            - key: kubernetes.io/hostname
+#              operator: In
+#              values:
+#                - worker1

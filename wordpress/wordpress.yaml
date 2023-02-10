@@ -2,50 +2,38 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress
-  labels:
-    app: wordpress
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: wordpress
-      tier: frontend
-  replicas: 1
-  strategy:
-    type: Recreate
   template:
     metadata:
       labels:
         app: wordpress
-        tier: frontend
     spec:
       containers:
-        - image: wordpress
-          name: wordpress
-          imagePullPolicy: IfNotPresent
-
-          env:
-            - name: WORDPRESS_DB_HOST
-              value: wordpress-mysql
-
-            - name: WORDPRESS_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: mysql-secret
-                  key: password
-
-            - name: WORDPRESS_DB_USER
-              value: mysql
-
-            - name: WORDPRESS_DB_NAME
-              value: mysql
-
+        - name: wordpress
+          image: wordpress:5.8.3-php7.4-apache
           ports:
             - containerPort: 80
               name: wordpress
           volumeMounts:
-            - name: wordpress-persistent-storage
-              mountPath: /var/www/html
+            - name: wordpress-data
+              mountPath: /var/www
+          env:
+            - name: WORDPRESS_DB_HOST
+              value: mysql-service.default.svc.cluster.local
+            - name: WORDPRESS_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wp-db-secrets
+                  key: MYSQL_ROOT_PASSWORD
+            - name: WORDPRESS_DB_USER
+              value: root
+            - name: WORDPRESS_DB_NAME
+              value: wordpress
       volumes:
-        - name: wordpress-persistent-storage
+        - name: wordpress-data
           persistentVolumeClaim:
-            claimName: wp-volume-claim
+            claimName: wordpress-volume
