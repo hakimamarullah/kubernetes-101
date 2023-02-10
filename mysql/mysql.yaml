@@ -1,20 +1,26 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: mysql
+  name: wordpress-mysql
+  labels:
+    app: wordpress
 spec:
   selector:
     matchLabels:
-      app: mysql
+      app: wordpress
+      tier: mysql
+  replicas: 1
   strategy:
     type: Recreate
   template:
     metadata:
       labels:
-        app: mysql
+        app: wordpress
+        tier: mysql
     spec:
       containers:
-        - image: mysql:8.0.32
+        - image: mysql:5.7
+          imagePullPolicy: IfNotPresent
           name: mysql
           env:
             - name: MYSQL_ROOT_PASSWORD
@@ -22,18 +28,28 @@ spec:
                 secretKeyRef:
                   name: mysql-secret
                   key: password
+
             - name: MYSQL_DATABASE
+              value: mysql
+
+            - name: MYSQL_USER
+              value: mysql
+
+            - name: MYSQL_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mysql-secret
-                  key: database
+                  key: password
+
           ports:
             - containerPort: 3306
               name: mysql
           volumeMounts:
             - name: mysql-persistent-storage
               mountPath: /var/lib/mysql
+      nodeSelector:
+        storage: local
       volumes:
         - name: mysql-persistent-storage
           persistentVolumeClaim:
-            claimName: mysql-volume-claim
+            claimName: mysql-pv-claim
