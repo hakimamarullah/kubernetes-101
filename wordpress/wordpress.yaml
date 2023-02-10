@@ -33,4 +33,4 @@ spec:
       volumes:
         - name: wordpress-data
           persistentVolumeClaim:
-            claimName: wordpress-volume
+            claimName: wp-volume-claim
