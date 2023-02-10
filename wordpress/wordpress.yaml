@@ -45,8 +45,6 @@ spec:
           volumeMounts:
             - name: wordpress-persistent-storage
               mountPath: /var/www/html
-      nodeSelector:
-        storage: local
       volumes:
         - name: wordpress-persistent-storage
           persistentVolumeClaim:
