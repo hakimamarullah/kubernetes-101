@@ -23,16 +23,16 @@ spec:
             - name: wordpress-data
               mountPath: /var/www
           env:
-            - name: DB_HOST
-              value: mysql.default.svc.cluster.local:3306
-            - name: DB_PASSWORD
+            - name: WORDPRESS_DB_HOST
+              value: mysql:3306
+            - name: WORDPRESS_DB_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: mysql-secret
                   key: password
-            - name: DB_USER
+            - name: WORDPRESS_DB_USER
               value: root
-            - name: DB_NAME
+            - name: WORDPRESS_DB_NAME
               value: wordpress
       volumes:
         - name: wordpress-data
