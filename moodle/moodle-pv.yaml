@@ -11,4 +11,4 @@ spec:
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /opt/volume/bitnami
+    path: /opt/bitnami/moodle
