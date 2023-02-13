@@ -34,7 +34,7 @@ spec:
             - containerPort: 80
           volumeMounts:
             - name: moodle-persistent-storage
-              mountPath: /var/moodle
+              mountPath: /opt/bitnami
       volumes:
         - name: moodle-persistent-storage
           persistentVolumeClaim:
