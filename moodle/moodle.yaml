@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: moodle
+spec:
+  revisionHistoryLimit: 2
+  replicas: 1
+  selector:
+    matchLabels:
+      app: moodle
+  template:
+    metadata:
+      labels:
+        app: moodle
+    spec:
+      containers:
+        - image: bitnami/moodle:4.1.1
+          name: moodle
+          env:
+            - name: MOODLE_DATABASE_TYPE
+              value: mysqli
+            - name: MOODLE_DATABASE_HOST
+              value: mysql-service.default.svc.cluster.local
+            - name: MOODLE_DATABASE_NAME
+              value: moodle
+            - name: MOODLE_DATABASE_USER
+              value: root
+            - name: MOODLE_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: moodle-persistent-storage
+              mountPath: /var/moodle
+      volumes:
+        - name: moodle-persistent-storage
+          persistentVolumeClaim:
+            claimName: moodle-volume-claim
