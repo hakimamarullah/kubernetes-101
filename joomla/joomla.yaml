@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: joomla
+  labels:
+    app: joomla
+spec:
+  replicas: 1
+  revisionHistoryLimit: 2
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: joomla
+  template:
+    metadata:
+      labels:
+        app: joomla
+    spec:
+      containers:
+        - image: joomla:4.2.7
+          name: joomla
+          ports:
+            - containerPort: 80
+              name: joomla
+          volumeMounts:
+            - name: joomla-persistent-storage
+              mountPath: /opt/volume/joomla
+          env:
+            - name: JOOMLA_DB_HOST
+              value: mysql-service.default.svc.cluster.local
+            - name: JOOMLA_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mysql-secret
+                  key: password
+      volumes:
+        - name: joomla-persistent-storage
+          persistentVolumeClaim:
+            claimName: joomla-volume-claim
