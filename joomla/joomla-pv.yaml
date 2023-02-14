@@ -6,6 +6,8 @@ metadata:
     app: joomla
 spec:
   storageClassName: manual
+  accessModes:
+    - ReadWriteOnce
   capacity:
     storage: 1Gi
   hostPath:
