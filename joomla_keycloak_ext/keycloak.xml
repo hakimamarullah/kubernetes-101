@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="3.1" type="plugin" group="authentication">
+    <name>Authentication - Keycloak</name>
+    <author>Joomla! Documentation Project</author>
+    <creationDate>February 14, 2023</creationDate>
+    <copyright>(C) 2005 - 2013 Open Source Matters. All rights reserved.</copyright>
+    <license>http://www.gnu.org/copyleft/gpl.html GNU/GPL</license>
+    <authorEmail>hakimamarullah@gmail.com</authorEmail>
+    <authorUrl>https://chat.openai.com/chat</authorUrl>
+    <version>1.0</version>
+    <description>An sample authentication plugin using Keycloak</description>
+    <files>
+        <filename plugin="keycloak">keycloak.php</filename>
+    </files>
+    <config/>
+</extension>
